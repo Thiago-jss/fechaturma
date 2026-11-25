@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFrameworks>net48;net8.0</TargetFrameworks></PropertyGroup>
+  <ItemGroup><ProjectReference Include="../FechaTurma.Core/FechaTurma.Core.csproj" /></ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <Reference Include="System.Data" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <PackageReference Include="Oracle.ManagedDataAccess" Version="23.26.400" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.6" />
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.26.400" />
+  </ItemGroup>
+</Project>

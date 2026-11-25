@@ -2,6 +2,10 @@
 
 **Conferência de notas e frequência, da importação à emissão da ata.** Uma secretaria acadêmica pode descobrir pendências antes de enviar a turma à coordenação. O fechamento registra o retrato analisado e quem confirmou a decisão, sem escrever no sistema de origem.
 
+![Painel FechaTurma com Projeto Integrador aguardando fechamento e três matrículas fictícias](docs/imagens/painel-pendente.png)
+
+*Captura da [demonstração automatizada no Windows](https://github.com/Thiago-jss/fechaturma/actions/runs/45690677016), após a importação e antes do fechamento.*
+
 ## Experimente
 
 | Etapa | O que fazer | Resultado esperado |

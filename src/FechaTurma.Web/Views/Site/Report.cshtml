@@ -8,7 +8,7 @@
     <p class="eyebrow">ATA ACADÊMICA · VERSÃO @Model.Version</p>
     <h1>@Model.Title</h1>
     <p class="lead">Turma @Model.ClassCode · Período @Model.Term · Coligada @Model.Organization</p>
-    <p>@Model.StudentCount matrículas · @Model.ApprovedCount aprovações · @Model.FailedCount reprovações</p>
+    <p>@Model.StudentCount @(Model.StudentCount == 1 ? "matrícula" : "matrículas") · @Model.ApprovedCount @(Model.ApprovedCount == 1 ? "aprovação" : "aprovações") · @Model.FailedCount @(Model.FailedCount == 1 ? "reprovação" : "reprovações")</p>
     <div class="table-scroll" tabindex="0" role="region" aria-label="Resultados da turma">
     <table>
       <caption>Notas e frequência no momento do fechamento</caption>

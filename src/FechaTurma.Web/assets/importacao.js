@@ -7,7 +7,8 @@ jQuery(function ($) {
     const onlyPending = $filter.prop('checked');
     $rows.each(function () { this.hidden = onlyPending && this.dataset.pending !== 'true'; });
     const count = $rows.filter(function () { return !this.hidden; }).length;
-    $('[data-visible-count]').text(`${count} de ${$rows.length} matrículas exibidas.`);
+    const label = $rows.length === 1 ? 'matrícula exibida' : 'matrículas exibidas';
+    $('[data-visible-count]').text(`${count} de ${$rows.length} ${label}.`);
   };
   $('[data-filter-panel]').prop('hidden', false);
   $filter.on('change', update);

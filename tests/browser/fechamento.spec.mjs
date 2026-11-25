@@ -33,7 +33,7 @@ test('secretaria bloqueia a turma incompleta, coordenação fecha e a ata regist
   await expect(page.getByText('Nota ausente')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Confirmar importação' })).toHaveCount(0);
   await page.getByLabel('Mostrar apenas matrículas com pendências').check();
-  await expect(page.getByText('1 de 1 matrículas exibidas.')).toBeVisible();
+  await expect(page.getByText('1 de 1 matrícula exibida.')).toBeVisible();
   await page.screenshot({ path: `${shots}01-previa-bloqueada.png`, fullPage: true });
 
   async function preview() {
@@ -88,5 +88,6 @@ test('secretaria bloqueia a turma incompleta, coordenação fecha e a ata regist
   await expect(page.getByRole('heading', { name: 'Projeto Integrador' })).toBeVisible();
   await expect(page.getByText('coordenacao.local', { exact: false })).toBeVisible();
   await expect(page.getByRole('row')).toHaveCount(4);
+  await expect(page.getByText('3 matrículas · 2 aprovações · 1 reprovação')).toBeVisible();
   await page.screenshot({ path: `${shots}03-ata.png`, fullPage: true });
 });

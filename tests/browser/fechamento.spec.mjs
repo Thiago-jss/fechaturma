@@ -21,7 +21,9 @@ test('secretaria bloqueia a turma incompleta, coordenação fecha e a ata regist
   expect(before.status()).toBe(200);
   expect(await before.json()).toEqual([]);
 
-  await page.goto(base);
+  const home = await page.goto(base);
+  expect(home.status()).toBe(200);
+  await expect(page.locator("h1")).toHaveText("Da pendência à ata.");
   await expect(page.getByRole('heading', { name: 'Da pendência à ata.' })).toBeVisible();
   await page.getByRole('link', { name: /Importar uma turma/ }).click();
   await page.getByLabel('Código da turma').fill('PI-02');

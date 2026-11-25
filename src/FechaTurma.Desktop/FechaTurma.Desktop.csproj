@@ -3,6 +3,9 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net48</TargetFramework>
     <LangVersion>7.3</LangVersion>
+    <!-- No native packages: keep the same managed target and lockfile on both hosts. -->
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
   <ItemGroup>

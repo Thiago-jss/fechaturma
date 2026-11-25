@@ -1,0 +1,101 @@
+<a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+<header class="site-header">
+  <div class="layout header-inner">
+    <a class="brand" href="/" aria-label="FechaTurma — início">
+      <span class="brand-mark" aria-hidden="true">✓</span> FechaTurma
+    </a>
+    <a class="header-link" href="/Importacao.aspx">Importação <span aria-hidden="true">↗</span></a>
+  </div>
+</header>
+<main class="layout" id="conteudo" tabindex="-1">
+  <section class="hero" aria-labelledby="titulo">
+    <p class="eyebrow">Secretaria acadêmica</p>
+    <h1 id="titulo">Painel de fechamento</h1>
+    <p>Acompanhe as turmas por disciplina, confira os totais do fechamento e consulte as atas já emitidas.</p>
+    <span class="read-only">Somente consulta</span>
+  </section>
+
+  @if (state().kind === 'ready') {
+    <section aria-labelledby="resumo">
+      <h2 id="resumo" class="sr-only">Resumo dos fechamentos</h2>
+      <dl class="summary">
+        <div><dt>Total de registros</dt><dd>{{ numberFormat.format(counts().all) }}</dd></div>
+        <div class="pending-summary"><dt>Pendentes</dt><dd>{{ numberFormat.format(counts().pending) }}</dd></div>
+        <div class="closed-summary"><dt>Encerrados</dt><dd>{{ numberFormat.format(counts().closed) }}</dd></div>
+      </dl>
+    </section>
+  }
+
+  <section class="results" aria-labelledby="turmas">
+    <div class="results-header">
+      <div>
+        <p class="eyebrow">Acompanhamento</p>
+        <h2 id="turmas">Turmas e disciplinas</h2>
+      </div>
+      @if (state().kind === 'ready') {
+        <div class="filters" role="group" aria-label="Filtrar por situação">
+          @for (option of filters; track option.value) {
+            <button type="button" [attr.aria-pressed]="filter() === option.value" (click)="filter.set(option.value)">{{ option.label }}</button>
+          }
+        </div>
+      }
+    </div>
+
+    <p class="sr-only" role="status">
+      @if (state().kind === 'loading') { Carregando fechamentos. }
+      @if (state().kind === 'ready') { {{ visible().length }} de {{ rows().length }} registros exibidos. }
+    </p>
+    @switch (state().kind) {
+      @case ('loading') {
+        <div class="notice"><span class="loader" aria-hidden="true"></span> Carregando fechamentos…</div>
+      }
+      @case ('error') {
+        <div class="notice notice-error">
+          <div role="alert"><h3>Não foi possível carregar os fechamentos</h3><p>Tente novamente para consultar os registros.</p></div>
+          <button class="action" type="button" (click)="load()">Tentar novamente</button>
+        </div>
+      }
+      @case ('ready') {
+        @if (rows().length === 0) {
+          <div class="notice"><h3>Nenhum fechamento registrado</h3><p>As turmas aparecem aqui depois da importação pela secretaria.</p></div>
+        } @else if (visible().length === 0) {
+          <div class="notice"><h3>Nenhum fechamento nesta situação</h3><button class="action" type="button" (click)="filter.set('all')">Mostrar todas as turmas</button></div>
+        } @else {
+          <ul class="closure-list">
+            @for (closure of visible(); track closure.id) {
+              <li class="closure">
+                <div class="closure-heading">
+                  <div>
+                    <p class="metadata">Turma {{ closure.classCode }} <span aria-hidden="true">·</span> {{ closure.term }} <span aria-hidden="true">·</span> Organização {{ closure.organization }}</p>
+                    <h3>{{ closure.title }}</h3>
+                  </div>
+                  <span class="badge" [class.closed]="closure.status === 'closed'">{{ closure.status === 'closed' ? 'Encerrada' : 'Pendente' }}</span>
+                </div>
+                <dl class="counts">
+                  <div><dt>Estudantes</dt><dd>{{ numberFormat.format(closure.studentCount) }}</dd></div>
+                  <div><dt>Aprovados</dt><dd>{{ numberFormat.format(closure.approvedCount) }}</dd></div>
+                  <div><dt>Reprovados</dt><dd>{{ numberFormat.format(closure.failedCount) }}</dd></div>
+                </dl>
+                <div class="closure-footer">
+                  @if (closure.closedAt; as closedAt) {
+                    <p>Encerrada em <time [attr.datetime]="closedAt">{{ formatDate(closedAt) }}</time> (UTC)</p>
+                  } @else {
+                    <p>Aguardando fechamento</p>
+                  }
+                  @if (closure.status === 'closed') {
+                    <a class="record-link" [href]="'/atas/' + closure.id" [attr.aria-label]="'Consultar ata: ' + closure.title + ', turma ' + closure.classCode">Consultar ata <span aria-hidden="true">→</span></a>
+                  }
+                </div>
+              </li>
+            }
+          </ul>
+        }
+      }
+    }
+  </section>
+  <aside class="workflow" aria-label="Orientação de fechamento">
+    <strong>Antes de fechar uma turma</strong>
+    <p>A secretaria importa os dados, e a coordenação confere notas e frequência antes do fechamento. As atas ficam disponíveis após o encerramento.</p>
+  </aside>
+</main>
+<footer class="site-footer"><div class="layout">FechaTurma <span aria-hidden="true">·</span> Gestão acadêmica</div></footer>

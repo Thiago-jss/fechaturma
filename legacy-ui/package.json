@@ -1,0 +1,6 @@
+{
+  "name": "fechaturma-legacy-ui",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {"jquery": "3.7.1"}
+}

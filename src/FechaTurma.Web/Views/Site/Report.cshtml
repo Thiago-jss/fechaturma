@@ -1,0 +1,29 @@
+@model FechaTurma.Core.Closure
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Ata @Model.ClassCode — FechaTurma</title><link rel="stylesheet" href="/assets/site.css"></head>
+<body>
+<main class="container">
+    <nav class="nav" aria-label="Navegação"><a href="/painel/">← Voltar ao painel</a><span class="pill">Fechada</span></nav>
+    <p class="eyebrow">ATA ACADÊMICA · VERSÃO @Model.Version</p>
+    <h1>@Model.Title</h1>
+    <p class="lead">Turma @Model.ClassCode · Período @Model.Term · Coligada @Model.Organization</p>
+    <p>@Model.StudentCount @(Model.StudentCount == 1 ? "matrícula" : "matrículas") · @Model.ApprovedCount @(Model.ApprovedCount == 1 ? "aprovação" : "aprovações") · @Model.FailedCount @(Model.FailedCount == 1 ? "reprovação" : "reprovações")</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Resultados da turma">
+    <table>
+      <caption>Notas e frequência no momento do fechamento</caption>
+      <thead><tr><th scope="col">Matrícula</th><th scope="col">Estudante</th><th scope="col">Nota</th><th scope="col">Frequência</th><th scope="col">Resultado</th></tr></thead>
+      <tbody>@foreach (var row in Model.Rows) {
+          <tr><td>@row.Registration</td><td>@row.Name</td><td>@row.Grade.ToString("N2")</td><td>@row.Attendance.ToString("N2")%</td><td>@(row.Outcome == "approved" ? "Aprovado" : "Reprovado")</td></tr>
+      }</tbody>
+    </table>
+    </div>
+    <section aria-labelledby="audit"><h2 id="audit">Histórico</h2><ol>
+        @foreach (var item in Model.Audit) {
+            <li><strong>@(item.Action == "imported" ? "Importação" : "Fechamento")</strong> — @item.Actor · <time datetime="@item.At.ToString("o")">@item.At.UtcDateTime.ToString("dd/MM/yyyy HH:mm:ss") UTC</time></li>
+        }
+    </ol></section>
+    <small>Identificador: @Model.Id · Dados fictícios de demonstração.</small>
+</main>
+</body>
+</html>

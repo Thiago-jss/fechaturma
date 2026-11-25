@@ -4,7 +4,7 @@
 
 ![Painel FechaTurma com Projeto Integrador aguardando fechamento e três matrículas fictícias](docs/imagens/painel-pendente.png)
 
-*Captura da [demonstração automatizada no Windows](https://github.com/Thiago-jss/fechaturma/actions/runs/45690677016), após a importação e antes do fechamento.*
+*Captura no Windows, após a importação e antes do fechamento. Veja também a [prévia bloqueada por uma nota ausente](docs/imagens/previa-bloqueada.png) e a [ata final com o histórico das decisões](docs/imagens/ata-final.png). Todos os dados da demonstração são fictícios.*
 
 ## Experimente
 
@@ -43,4 +43,8 @@ O modo padrão usa notas fictícias em memória como origem e **SQL Server Expre
 - **Oracle:** projeção acadêmica fictícia consultada por uma conta de somente leitura. A origem e o banco de fechamentos têm responsabilidades distintas.
 - **Angular e TypeScript:** painel de consulta. **HTML, CSS, JavaScript e jQuery:** prévia e filtro progressivo no Web Forms. Nenhuma biblioteca é carregada de CDN.
 
-Leia [arquitetura e limites](docs/arquitetura.md), [API](docs/api.md), [cenários de aceitação](docs/fechamento.feature) e [operação e testes](docs/operacao.md) e [contrato de integração opcional](docs/integracao-rm.md). O projeto é um laboratório local com dados fictícios, não um ERP completo nem um serviço para publicar na internet.
+## O que os testes verificam
+
+A CI executa o fluxo em **Windows com IIS Express, SQL Server LocalDB, WinForms e Chromium**, desde a nota ausente até a emissão da ata. Em um job separado, testa **SQL Server e Oracle reais**: importação concorrente sem duplicação, confirmação com versão, rollback se a auditoria falhar e acesso de somente leitura na origem. O [guia de operação](docs/operacao.md) mostra como reproduzir os testes dos bancos.
+
+Leia também [arquitetura e limites](docs/arquitetura.md), [API](docs/api.md), [cenários de aceitação](docs/fechamento.feature) e [contrato de integração opcional](docs/integracao-rm.md). O projeto é um laboratório local com dados fictícios, não um ERP completo nem um serviço para publicar na internet.
